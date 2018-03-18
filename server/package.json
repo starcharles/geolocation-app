@@ -1,0 +1,46 @@
+{
+  "name": "geolocation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node ./dist/server.js",
+    "dev": "./node_modules/.bin/nodemon",
+    "build": "./node_modules/.bin/tsc",
+    "test": "jasmine-node",
+    "ts-node": "./node_modules/.bin/ts-node src/server.ts"
+  },
+  "engines": {
+    "node": "8.5.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/body-parser": "^1.16.4",
+    "@types/dotenv": "^4.0.2",
+    "@types/express": "^4.0.39",
+    "@types/isomorphic-fetch": "0.0.34",
+    "@types/jasmine-node": "^1.14.31",
+    "@types/jsonwebtoken": "^7.2.1",
+    "@types/lodash": "^4.14.104",
+    "@types/morgan": "^1.7.35",
+    "@types/sqlite3": "^3.1.1",
+    "body-parser": "^1.16.1",
+    "dotenv": "^5.0.1",
+    "express": "^4.0.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jasmine-node": "^1.14.5",
+    "jsonwebtoken": "^7.2.1",
+    "keypair": "^1.0.1",
+    "lodash": "^4.17.5",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.2",
+    "reflect-metadata": "^0.1.12",
+    "sequelize": "^4.37.0",
+    "sequelize-typescript": "^0.6.3",
+    "sqlite3": "^3.1.13",
+    "ts-node": "^5.0.1",
+    "typescript": "^2.3.2"
+  }
+}
