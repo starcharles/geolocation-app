@@ -1,26 +1,42 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GeolocationService} from '../service/geolocation.service'
-import { Config } from '../class/config';
 
 @Component({
-  selector: '',
+  selector: 'geolocation',
   templateUrl: './geolocation.component.html',
   styleUrls: ['./geolocation.component.css'],
   providers: [GeolocationService]
 })
-export class GeolocationComponent {
 
-  config: Config;
+export class GeolocationComponent implements OnInit{
+
+  headers: string[];
+  timestamp: number;
+  position: Coordinates;
+  show: boolean = false;
 
   constructor(private geolocationService: GeolocationService){
 
   }
 
-  showConfig() {
-    this.geolocationService.getConfig()
-      .subscribe(data => {
-        console.log(data);
-        this.config = data
-      });
+  ngOnInit(){
+    this.showGeolocation();
+  }
+
+  showGeolocation() {
+    this.show = true;
+    this.geolocationService.getGeolocation()
+      .subscribe( res => {
+          this.show = false;
+          this.timestamp = res.timestamp;
+          this.position = res.coords;
+          // {latitude: 35.5285259, longitude: 139.71478109999998, altitude: null, accuracy: 36, altitudeAccuracy: null, …}
+          console.log(this.position);
+        },
+        err => {
+          this.show = false;
+          console.log(err);
+        }
+      );
   }
 }

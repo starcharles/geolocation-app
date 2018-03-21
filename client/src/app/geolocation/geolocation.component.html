@@ -1,9 +1,23 @@
-<ul>
-  <li>
-    <button>位置情報取得</button>
-  </li>
-  <li>
-    test: geoloc-component
-  </li>
-</ul>
-
+<div class="mylocation">
+  <ul>
+    <li>
+      <!--<button mat-raised-button color="primary" (click)="showGeolocation();">位置情報取得</button>-->
+      <div *ngIf="show">
+        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+        <p>位置情報を取得中です....</p>
+      </div>
+    </li>
+    <li>
+      あなたの現在位置情報:
+      <span>
+        ( 緯度: {{position?.latitude}} )
+      </span>
+      <span>
+        ( 経度: {{position?.longitude}} )
+      </span>
+    </li>
+  </ul>
+</div>
+<div class="others">
+  <others-location [myPosition]="position"></others-location>
+</div>

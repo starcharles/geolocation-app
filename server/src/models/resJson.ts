@@ -5,7 +5,7 @@
 //     data: any;
 // }
 
-import {Table, Column, Model, HasMany} from 'sequelize-typescript';
+import {Table, Column, Model} from 'sequelize-typescript';
 
 @Table({
     timestamps: true,
