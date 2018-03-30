@@ -1,23 +1,27 @@
-<div class="mylocation">
-  <ul>
-    <li>
-      <!--<button mat-raised-button color="primary" (click)="showGeolocation();">位置情報取得</button>-->
-      <div *ngIf="show">
-        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-        <p>位置情報を取得中です....</p>
+<geolocation-header shared-data="sharedData"></geolocation-header>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 location-area">
+      <div class="mylocation">
+        <div>
+          <div *ngIf="show">
+            <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+            <p>位置情報を取得中です....</p>
+          </div>
+          <div class="position">
+            あなたの現在位置情報:
+            <span>(緯度: {{coordinates?.latitude | number:'1.0-3'}} )</span>
+            <span>(経度: {{coordinates?.longitude | number:'1.0-3'}} )</span>
+          </div>
+        </div>
       </div>
-    </li>
-    <li>
-      あなたの現在位置情報:
-      <span>
-        ( 緯度: {{position?.latitude}} )
-      </span>
-      <span>
-        ( 経度: {{position?.longitude}} )
-      </span>
-    </li>
-  </ul>
-</div>
-<div class="others">
-  <others-location [myPosition]="position"></others-location>
+      <div class="others-location">
+        <others-location [myCoordinates]="coordinates"></others-location>
+        <others-distance [myCoordinates]="coordinates"></others-distance>
+      </div>
+    </div>
+    <div class="col-sm-6 chat-message">
+      <chat-panel shared-data="sharedData" [myCoordinates]="coordinates"></chat-panel>
+    </div>
+  </div>
 </div>

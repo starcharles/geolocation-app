@@ -1,0 +1,102 @@
+<mat-toolbar>近くのユーザー情報</mat-toolbar>
+<div class="table-container">
+  <mat-table #table [dataSource]="positions">
+    <ng-container matColumnDef="user_id">
+      <mat-header-cell *matHeaderCellDef> User ID </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.user_id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="latitude">
+      <mat-header-cell *matHeaderCellDef> 緯度 </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.coords.latitude | number:'1.0-3'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="longitude">
+      <mat-header-cell *matHeaderCellDef> 経度 </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.coords.longitude | number:'1.0-3'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="accuracy">
+      <mat-header-cell *matHeaderCellDef> Accuracy </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.coords.accuracy}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.timestamp | date:'short'}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="['user_id','latitude','longitude','accuracy','date']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['user_id','latitude','longitude','accuracy','date'];"></mat-row>
+  </mat-table>
+</div>
+
+<!--<button mat-raised-button color="primary" (click)="getDistances(); showDistance=true;">距離を計算</button>-->
+<!--<div *ngIf="showDistance">-->
+  <!--<mat-form-field>-->
+    <!--<mat-select placeholder="絞り込み" name="filter" [(ngModel)]="selectedDistance" (change)="filterUsers($event)">-->
+      <!--<mat-option *ngFor="let option of distanceOptions" [value]="option.value">-->
+        <!--{{ option.viewValue }}-->
+      <!--</mat-option>-->
+    <!--</mat-select>-->
+  <!--</mat-form-field>-->
+  <!--<div class="table-container distance-table">-->
+    <!--<mat-table #table [dataSource]="distances">-->
+      <!--<ng-container matColumnDef="user_id">-->
+        <!--<mat-header-cell *matHeaderCellDef> User ID </mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let distance"> {{distance.user_id}} </mat-cell>-->
+      <!--</ng-container>-->
+      <!--<ng-container matColumnDef="distance">-->
+        <!--<mat-header-cell *matHeaderCellDef> 距離(km) </mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let distance"> {{distance.distance | number:'1.0-1'}} </mat-cell>-->
+      <!--</ng-container>-->
+      <!--<ng-container matColumnDef="actions">-->
+        <!--<mat-header-cell *matHeaderCellDef> アクション </mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let distance">-->
+          <!--<mat-form-field>-->
+            <!--<mat-select placeholder="" (change)="filterUsers(action)">-->
+              <!--<mat-option *ngFor="let action of targetActions" [value]="action.value" >-->
+                <!--{{ action.viewValue}}-->
+              <!--</mat-option>-->
+            <!--</mat-select>-->
+          <!--</mat-form-field>-->
+        <!--</mat-cell>-->
+      <!--</ng-container>-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+        <!--&lt;!&ndash;<select name="action" id="target-action">&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="1">攻撃</option>&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="2">呪文</option>&ndash;&gt;-->
+          <!--&lt;!&ndash;<option value="3">メッセージ</option>&ndash;&gt;-->
+        <!--&lt;!&ndash;</select>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--&lt;!&ndash;<td>&ndash;&gt;-->
+        <!--&lt;!&ndash;<button mat-raised-button color="warn">実行！</button>&ndash;&gt;-->
+      <!--&lt;!&ndash;</td>&ndash;&gt;-->
+      <!--<mat-header-row *matHeaderRowDef="['user_id','distance','actions']"></mat-header-row>-->
+      <!--<mat-row *matRowDef="let row; columns: ['user_id','distance','actions'];"></mat-row>-->
+    <!--</mat-table>-->
+  <!--</div>-->
+<!--</div>-->
+
+
+
+<!--<div *ngIf="selected">-->
+  <!--<h3>選択中のユーザー</h3>-->
+  <!--<table border="1" class="position-table">-->
+    <!--<tr>-->
+      <!--<th>user_id </th>-->
+      <!--<th>あなたとの距離</th>-->
+      <!--<th>対象ユーザーへのアクション</th>-->
+      <!--<th></th>-->
+    <!--</tr>-->
+    <!--<tr>-->
+      <!--<td>{{selected?.user_id}}</td>-->
+      <!--<td>{{selected?.distance}}</td>-->
+      <!--<td>-->
+        <!--<select name="action" id="target-action">-->
+          <!--<option value="1">攻撃</option>-->
+          <!--<option value="2">呪文</option>-->
+          <!--<option value="3">メッセージ</option>-->
+        <!--</select>-->
+      <!--</td>-->
+      <!--<td>-->
+        <!--<button mat-raised-button color="warn">実行！</button>-->
+      <!--</td>-->
+    <!--</tr>-->
+  <!--</table>-->
+<!--</div>-->

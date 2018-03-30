@@ -1,0 +1,7 @@
+<div class="chat-display-area">
+  <ol>
+    <li class="message" *ngFor="let msg of chatMessages">
+      {{msg?.user_id }} :  {{msg?.message }}
+    </li>
+  </ol>
+</div>

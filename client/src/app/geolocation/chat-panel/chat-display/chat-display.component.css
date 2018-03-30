@@ -1,0 +1,13 @@
+.chat-display-area{
+  width: 100px;
+  height: 300px;
+}
+
+ol {
+  list-style: none;
+  width: 100%;
+}
+
+li{
+  width: 100%;
+}
