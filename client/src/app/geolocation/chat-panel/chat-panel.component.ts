@@ -1,33 +1,30 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {distanceOptions} from "../../settings/config"
 import {UserService} from '../../service/user.service';
-import {MessageService} from '../../service/message.service';
+import {ChatMessageService} from '../../service/chat-message.service';
 import {User} from "../../models/User";
 import {Distance} from "../../models/Distance";
-import * as gps_distance from 'gps-distance';
-import {distanceOptions} from "../../settings/config"
-import {GeolocationService} from "../../service/geolocation.service"
 import {GeoLocation} from "../../models/GeoLocation";
-import {Message} from "../../models/Message";
+import {ChatMessage} from "../../models/ChatMessage";
 
 @Component({
   selector: 'chat-panel',
   templateUrl: './chat-panel.component.html',
   styleUrls: ['./chat-panel.component.css'],
-  providers: [UserService,MessageService]
+  providers: [UserService,ChatMessageService]
 })
 
 export class ChatPanelComponent implements OnInit {
   constructor(
     private userService:UserService,
-    private geolocationService:GeolocationService,
-    private messageService: MessageService,
+    private chatMessageService: ChatMessageService,
               ) { }
 
   @Input() myCoordinates;
   positions: GeoLocation[];
   users: User[];
   distances: Distance[];
-  messages: Message[] =[];
+  chatMessages: ChatMessage[] =[];
   selectedDistance: number;
   showDistance = false;
   distanceOptions = distanceOptions;
@@ -39,70 +36,55 @@ export class ChatPanelComponent implements OnInit {
     "name": "taro"
   };
 
+  // ngOnInit() {
+    // this.getUsers();
+    // this.showChatMessages();
+  // }
+
   ngOnInit() {
-    this.getUsers();
-    this.showMessages();
+    this.fetchChatMessages(1111,this.myself.id);
   }
+
+  fetchChatMessages(roomNumber:number, user_id: number){
+
+    this.chatMessageService.connect(roomNumber, user_id).subscribe(msg => {
+      // const isMyself = msg.user_id === this.name;
+      let chatMsg = <ChatMessage>{
+        "user_id": msg.user_id,
+        "message": msg.message,
+        "isMe": msg.user_id === this.myself.id
+      };
+      this.chatMessages.push(chatMsg);
+    });
+  };
+
 
   addChatMessage(event){
     if(!event.message) return;
 
-    let newMsg: Message = <Message> {
-      "id": this.messages.length === 0 ? 1 :this.messages[this.messages.length-1].id,
+    let newMsg: ChatMessage = <ChatMessage> {
+      "id": this.chatMessages.length === 0 ? 1 :this.chatMessages[this.chatMessages.length-1].id,
       "user_id": this.myself.id,
       "message": event.message
     };
-    this.messages.push(newMsg);
-    console.log(this.messages);
+    this.chatMessages.push(newMsg);
+    console.log(this.chatMessages);
   }
 
-  private showMessages(): void{
-    this.messageService.getMessages()
-      .subscribe( data => {
-        this.messages = data;
-      });
-  }
-  private getUsers(diameter: number = 0): void{
-  // private getUsers(): void{
-    this.userService.getLocalUsers(0)
-      .subscribe(data => this.users = data);
-  }
+  // private  fetchChatMessages(): void{
+  //   this.messageService.getChatMessages()
+  //     .subscribe( data => {
+  //       this.chatMessages = data;
+  //     });
+  // }
+
+  // private getUsers(diameter: number = 0): void{
+  // // private getUsers(): void{
+  //   this.userService.getLocalUsers(0)
+  //     .subscribe(data => this.users = data);
+  // }
 
   private filterUsers($event){
     this.distances = this.userService.filterUsersByDistance(this.distances, this.selectedDistance);
-  }
-
-  private getDistances(): void {
-    let myCoords = this.myCoordinates;
-    if(myCoords === undefined) return;
-
-    this.geolocationService.getOthersGeoLocations()
-      .map(data => {
-        this.positions = data;
-        let arr: Distance[] =[];
-        data.forEach(elem => {
-          let coords = elem.coords;
-          let _name ='匿名';
-          this.users.forEach(user => {
-            if(user['id'] === elem.user_id){
-              _name = user['name'];
-            }
-          });
-          // for(let user in this.users){
-          //   if(user['id'] === elem.user_id){
-          //     _name = user['name'];
-          //   }
-          // }
-          arr.push({
-            "user_id": elem.user_id,
-            "user_name": _name,
-            "distance": gps_distance(myCoords.latitude, myCoords.longitude, coords.latitude, coords.longitude)
-          });
-        });
-        return arr;
-      })
-      .subscribe( data => {
-        this.distances = data;
-      })
   }
 }

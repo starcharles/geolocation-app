@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Message} from "../../../models/Message";
+import {ChatMessage} from "../../../models/ChatMessage";
 
 @Component({
   selector: 'chat-display',
@@ -9,12 +9,12 @@ import {Message} from "../../../models/Message";
 export class ChatDisplayComponent implements OnInit {
 
   constructor() { }
-  @Input() chatMessages: Message[];
+  @Input() chatMessages: ChatMessage[];
 
   ngOnInit() {
   }
 
-  showMessages(): void {
+  showChatMessages(): void {
 
   }
 }

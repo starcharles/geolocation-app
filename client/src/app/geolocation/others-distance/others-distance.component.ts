@@ -5,7 +5,7 @@ import * as gps_distance from 'gps-distance';
 import {distanceOptions} from "../../settings/config"
 import {GeolocationService} from "../../service/geolocation.service"
 import {GeoLocation} from "../../models/GeoLocation";
-import {Message} from "../../models/Message";
+import {ChatMessage} from "../../models/ChatMessage";
 import {UserService} from "../../service/user.service";
 
 @Component({

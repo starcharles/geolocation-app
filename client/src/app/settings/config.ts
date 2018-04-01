@@ -11,4 +11,15 @@ const targetActions =[
   {value: 2, viewValue: '攻撃'},
   {value: 3, viewValue: '呪文'},
 ];
-export { distanceOptions, targetActions}
+
+const apiBaseUrl = '/api';
+const hostname = 'localhost:4200';
+
+
+
+export {
+  distanceOptions,
+  targetActions,
+  apiBaseUrl,
+  hostname
+}

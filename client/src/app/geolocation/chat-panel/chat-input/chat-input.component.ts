@@ -14,7 +14,7 @@ export class ChatInputComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitMessage(): void{
+  submitChatMessage(): void{
     if(this.chatMessage === '') return;
     console.log(this.chatMessage);
     this.messageSubmitEvent.emit({"message": this.chatMessage})

@@ -3,9 +3,13 @@ import {NextFunction, Request, Response} from "express";
 import * as dotenv from "dotenv";
 import * as bodyParser from "body-parser";
 import * as logger from 'morgan';
-import {Sequelize} from 'sequelize-typescript';
-import {Development} from './config/environment/development';
-import * as jwt from "jsonwebtoken";
+import * as http from 'http';
+import * as WebSocket from 'ws';
+import {wsInit}  from './websocket/ws';
+
+// import {Sequelize} from 'sequelize-typescript';
+// import {Development} from './config/environment/development';
+// import * as jwt from "jsonwebtoken";
 // import {Key} from "./key";
 
 dotenv.config();
@@ -24,6 +28,15 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const app = express();
+let server;
+
+if(process.env.WebsocketEnabled){
+    server = http.createServer(app);
+    const wss = new WebSocket.Server({ server });
+    wsInit(wss);
+}
+if(!server) server = app;
+
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use((req: Request,res: Response, next: NextFunction) =>{
@@ -49,10 +62,8 @@ app.use((req: Request,res: Response, next: NextFunction) =>{
 // 	});
 
 app.get("/hello",(req: Request, res: Response, next: NextFunction) => {
-	//レスポンス
-	res
-	    .set("Content-Type","application/json; charset=utf-8")
-	    .json({message:req.url+" のリクエストを受けました"})
+	res.set("Content-Type","application/json; charset=utf-8")
+	   .json({message:req.url+" のリクエストを受けました"})
 });
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -60,18 +71,16 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    res
-        .set("Content-Type","application/json; charset=utf-8")
-        .json(err);
+    res.set("Content-Type","application/json; charset=utf-8")
+       .json(err);
     }
 );
 
 const port = process.env.PORT || '3000';
-app.listen(port, () => {
+server.listen(port, () => {
         console.log(`Successfully running a server at port:${port}`);
-})
-.on(
+}).on(
     "error", (error) => {
         console.error("failed opening port! :" + error.message);
         process.exit(1);
-});
+    });
