@@ -1,13 +1,12 @@
-<geolocation-header shared-data="sharedData"></geolocation-header>
-<div class="container">
+<div class="container" *ngIf="state.initialized">
   <div class="row">
     <div class="col-sm-6 location-area">
       <div class="mylocation">
         <div>
-          <div *ngIf="show">
-            <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-            <p>位置情報を取得中です....</p>
-          </div>
+          <!--<div *ngIf="show">-->
+          <!--<mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>-->
+          <!--<p>位置情報を取得中です....</p>-->
+          <!--</div>-->
           <div class="position">
             あなたの現在位置情報:
             <span>(緯度: {{coordinates?.latitude | number:'1.0-3'}} )</span>
@@ -16,12 +15,12 @@
         </div>
       </div>
       <div class="others-location">
-        <others-location [myCoordinates]="coordinates"></others-location>
-        <others-distance [myCoordinates]="coordinates"></others-distance>
+        <app-others-location [state]="state"></app-others-location>
+        <app-others-distance [state]="state"></app-others-distance>
       </div>
     </div>
     <div class="col-sm-6 chat-message">
-      <chat-panel shared-data="sharedData" [myCoordinates]="coordinates"></chat-panel>
+      <app-chat-panel [state]="state"></app-chat-panel>
     </div>
   </div>
 </div>

@@ -1,72 +1,117 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "./models/User";
-import {GeoLocation} from "./models/GeoLocation";
-import {ChatMessage} from "./models/ChatMessage";
-import {SharedDataService} from "./service/shared-data.service";
-import {UserService} from "./service/user.service";
-import {GeolocationService} from "./service/geolocation.service";
-import {MySelf} from "./models/MySelf";
+import {SharedDataService} from './service/shared-data.service';
+import {UserService} from './service/user.service';
+import {GeolocationService} from './service/geolocation.service';
+import {MessageService} from './service/message.service';
+import {AppState} from './models/AppState';
+import {Message} from './models/Message';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [SharedDataService, UserService]
+  providers: [SharedDataService, UserService, GeolocationService, MessageService]
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
-  //グローバル変数
-  myself: MySelf; //現在のユーザー情報
-  positions: GeoLocation[] =[]; //　他ユーザーの位置情報
-  users: User[]=[];
-  chatMessages: ChatMessage[]=[];
-
-  constructor(
-    private sharedDataService: SharedDataService,
-    private userService: UserService,
-    private geolocationService: GeolocationService
-              ){
+  constructor(private shared: SharedDataService,
+              private userService: UserService,
+              private geolocationService: GeolocationService,
+              private messageService: MessageService) {
   }
 
-  ngOnInit(){
+  private _appState: AppState;
+
+  ngOnInit() {
     // TODO:
-
-    // 以下逐次処理か？
-
+    // 0. login処理//　myselfにユーザー設定
     // 1. ユーザー情報（位置情報、ログイン情報取得) if logged_in;
-    if(this.isLoggedIn()) {
-      this.showMyself();
-      this.showMyGeolocation();
+    // 2. this.sharedDataService.getLocalUsers();ユーザー位置情報等に基づき、周辺ユーザーデータを取得
+    // 3. appStateをセットする
+    this._appState = this.shared.getState();
+    this._appState.initialized = false;
+
+    if (this.isLoggedIn()) {
+      this.userService.getMyself().toPromise()
+        .then(result => {
+          this.shared.setState('myself', result);
+          console.log(this.shared.getState());
+          return this.showMyGeolocation();
+        })
+        .then(result => {
+          const myself = this.shared.getState().myself;
+          myself.coordinates = result;
+          this.shared.setState('myself', myself);
+          console.log(this.shared.getState());
+          return this.getLocalUsers(result);
+        })
+        .then(result => {
+          this.shared.setState('users', result.users);
+          this.shared.setState('positions', result.positions);
+          return this.geolocationService.calcDistances(this.shared.getState());
+        })
+        .then(data => {
+          console.log(this.shared.getState());
+          this.shared.setState('distances', data);
+          return this.fetchMessages();
+        })
+        .then(data => {
+          this.shared.setState('messages', data);
+          console.log(this.shared.getState());
+          return this.getAppState();
+        })
+        .then(data => {
+          this.shared.setState('initialized', true);
+          console.log(this.shared.getState());
+        })
+        .catch(err => {
+          alert('アプリの初期化に失敗しました。リロードまたはインターネットの接続状況を改善してください。');
+          console.log(err);
+        });
     }
 
-    // 2. this.sharedDataService.getData();// ユーザー位置情報等に基づきj、初期データのロードをする
-    if(this.myself.coordinates){
-      this.sharedDataService.getAllData(this.myself);
-    }
-
-    // 3. websocketの確立をする
-    //他ユーザーとのwebsocket確立
+    // 4. websocketの確立をする
+    // 他ユーザーとのwebsocket確立
 
   }
 
-  private isLoggedIn(): boolean{
+  private isLoggedIn(): boolean {
     return true;
   }
 
-  private showMyself(){
-    this.userService.getMyself()
-      .subscribe( data => this.myself.user = data);
+  private showMyGeolocation(): Promise<Coordinates> {
+    return new Promise((resolve, reject) => {
+      this.geolocationService.getMyGeolocation()
+        .subscribe(res => {
+          resolve(res.coords);
+        }, err => {
+          reject(err);
+        });
+    });
   }
 
-  private showMyGeolocation(): void {
-    this.geolocationService.getMyGeolocation()
-      .subscribe( res => {
-          this.myself.coordinates = res.coords;
-        },
-        err => {
-          console.log(err);
-        }
-      );
+  private getAppState(): Promise<AppState> {
+    return new Promise((resolve, reject) => {
+      this._appState = this.shared.getState();
+      if (this._appState) {
+        resolve(this._appState);
+      } else {
+        reject('state is set');
+      }
+    });
+  }
+
+  private getLocalUsers(coords: Coordinates): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.userService.getLocalUsers(coords)
+        .subscribe(data => {
+          resolve(data);
+        }, err => reject(err));
+    });
+  }
+
+  private fetchMessages(): Promise<Message[]> {
+    return this.messageService.getMessages().toPromise();
   }
 }

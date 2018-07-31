@@ -1,22 +1,89 @@
-[
-  {
-    "id":1,
-    "name": "mike"
-  },
-  {
-    "id":2,
-    "name": "charlie"
-  },
-  {
-    "id":3,
-    "name": "user3"
-  },
-  {
-    "id":4,
-    "name": "trump"
-  },
-  {
-    "id":4,
-    "name": "poutin"
-  }
-]
+{
+  "users": [
+    {
+      "id":1,
+      "name": "mike"
+    },
+    {
+      "id":2,
+      "name": "charlie"
+    },
+    {
+      "id":3,
+      "name": "user3"
+    },
+    {
+      "id":4,
+      "name": "trump"
+    },
+    {
+      "id":4,
+      "name": "poutin"
+    }
+  ],
+  "positions": [{
+      "user_id":1,
+      "coords": {
+        "accuracy": 48,
+        "altitude": null,
+        "altitudeAccuracy": null,
+        "heading": null,
+        "latitude": 34.028469799999996,
+        "longitude": 139.7147912,
+        "speed": null
+      },
+      "timestamp": 1521393424822
+    },
+    {
+      "user_id":2,
+      "coords":{
+        "accuracy": 48,
+        "altitude": null,
+        "altitudeAccuracy": null,
+        "heading": null,
+        "latitude": 35.833557,
+        "longitude": 138.724180,
+        "speed": null
+      },
+      "timestamp": 1521393424822
+    },
+    {
+      "user_id":3,
+      "coords":{
+        "accuracy": 48,
+        "altitude": null,
+        "altitudeAccuracy": null,
+        "heading": null,
+        "latitude": 35.514659,
+        "longitude": 139.712206,
+        "speed": null
+      },
+      "timestamp": 1521393424822
+    },
+    {
+      "user_id":4,
+      "coords":{
+        "accuracy": 48,
+        "altitude": null,
+        "altitudeAccuracy": null,
+        "heading": null,
+        "latitude": 35.523442,
+        "longitude": 139.712957,
+        "speed": null
+      },
+      "timestamp": 1521393424822
+    },
+    {
+      "user_id":5,
+      "coords":{
+        "accuracy": 12,
+        "altitude": null,
+        "altitudeAccuracy": null,
+        "heading": null,
+        "latitude": 52.220007,
+        "longitude": 13.404954,
+        "speed": null
+      },
+      "timestamp": 1521393424822
+    }]
+}

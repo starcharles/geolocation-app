@@ -1,32 +1,18 @@
-import { Injectable } from '@angular/core';
-import {User} from "../models/User";
-import {GeoLocation} from "../models/GeoLocation";
-import {Distance} from "../models/Distance";
-import {MySelf} from "../models/MySelf";
+import {Injectable} from '@angular/core';
+import {AppState} from '../models/AppState';
 
 @Injectable()
 export class SharedDataService {
 
+  private _appState: AppState = <AppState>{};
+
   constructor() { }
 
-  private users: User[] = [];
-  private positions: GeoLocation[] = [];
-  private distances: Distance[] = [];
-
-  getAllData(myself: MySelf){
-    //TODO:myselfを元に周囲のユーザー情報を取得する
-    
-    return {
-      "users": this.users,
-      "positions": this.positions,
-      "distances": this.distances
-    }
+  public getState(): AppState {
+    return this._appState;
   }
 
-  updateData(type: string, newSata: any){
-  }
-
-  deleteData(){
-
+  public setState(target_name: string, newData: any): AppState {
+    return this._appState[target_name] = newData;
   }
 }

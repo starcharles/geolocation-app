@@ -1,14 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import "rxjs/add/operator/map";
+import 'rxjs/add/operator/map';
 import * as gps_distance from 'gps-distance';
-import {GeolocationService} from "../../service/geolocation.service";
-import {UserService} from "../../service/user.service";
-import {GeoLocation} from "../../models/GeoLocation";
-import {Distance} from "../../models/Distance";
-import {distanceOptions, targetActions} from "../../settings/config";
+import {GeolocationService} from '../../service/geolocation.service';
+import {UserService} from '../../service/user.service';
+import {GeoLocation} from '../../models/GeoLocation';
+import {Distance} from '../../models/Distance';
+import {distanceOptions, targetActions} from '../../settings/config';
+import {AppState} from '../../models/AppState';
 
 @Component({
-  selector: 'others-location',
+  selector: 'app-others-location',
   templateUrl: './others-location.component.html',
   styleUrls: ['./others-location.component.css'],
   providers: [GeolocationService, UserService]
@@ -16,42 +17,35 @@ import {distanceOptions, targetActions} from "../../settings/config";
 
 export class OthersLocationComponent implements OnInit {
 
-  @Input() myCoordinates;
-  positions: GeoLocation[];
-  distances: Distance[];
-  showDistance = false;
-  selectedDistance: number;
-  distanceOptions = distanceOptions;
-  targetActions = targetActions;
+  @Input() state: AppState;
 
-  constructor(
-    private geolocationService: GeolocationService,
-    private userService: UserService
-             ) {}
+  // @Input() myCoordinates;
+  // positions: GeoLocation[];
+  // distances: Distance[];
+  // showDistance = false;
+  // selectedDistance: number;
+  // distanceOptions = distanceOptions;
+  // targetActions = targetActions;
+
+  constructor(private geolocationService: GeolocationService,
+              private userService: UserService) {
+  }
 
   ngOnInit() {
-    this.showOthersGeoLocations();
+    // this.showOthersGeoLocations();
     // this.getDistances();
   }
-
-  private filterUsers($event){
-    // console.log('filterUsers');
-    // console.log($event);
-    // console.log(this.selectedDistance);
-    this.distances = this.userService.filterUsersByDistance(this.distances, this.selectedDistance);
-  }
-
-  private showOthersGeoLocations(): void {
-    this.geolocationService.getOthersGeoLocations()
-      .subscribe(
-        data => {
-          this.positions = data;
-        },
-        err => {
-          console.log(err);
-        }
-      );
-  }
+  // private showOthersGeoLocations(): void {
+  //   this.geolocationService.getOthersGeoLocations()
+  //     .subscribe(
+  //       data => {
+  //         this.positions = data;
+  //       },
+  //       err => {
+  //         console.log(err);
+  //       }
+  //     );
+  // }
 
   // private getDistances(): void {
   //   let myCoords = this.myCoordinates;

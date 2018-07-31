@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
 import {ChatMessage} from '../models/ChatMessage';
@@ -7,14 +7,13 @@ import * as config from '../settings/config';
 
 @Injectable()
 export class ChatMessageService {
-  constructor(
-    private http: HttpClient,
-    private ws: WebSocketService
-    ) {
+  constructor(private http: HttpClient,
+              private ws: WebSocketService) {
   }
 
   private messages: Subject<ChatMessage>;
   private chatMessagesUrl = '/api/messages';
+
   private wsUrl(roomNumber: number, user_id: number): string {
     return `ws://${config.hostname}${this.chatMessagesUrl}/stream/${roomNumber}?user_id=${user_id}`;
   }
@@ -52,14 +51,14 @@ export class ChatMessageService {
   // public createChatMessage(): ChatMessage| Error{
   //   let msg: ChatMessage;
 
-    // if(){
-    //   return msg;
-    //
-    // }else{
-    //   let err: Error;
-    //
-    //   return err;
-    // }
+  // if(){
+  //   return msg;
+  //
+  // }else{
+  //   let err: Error;
+  //
+  //   return err;
+  // }
   // }
 
   public updateChatMessage(message_id: number) {

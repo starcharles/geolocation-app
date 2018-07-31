@@ -1,44 +1,20 @@
-import {Component, OnInit} from '@angular/core';
-import {GeolocationService} from '../service/geolocation.service'
-import {SharedDataService} from '../service/shared-data.service';
-// import {User} from '../models/User';
+import {Component, Input, OnInit} from '@angular/core';
+import {AppState} from '../models/AppState';
 
 @Component({
-  selector: 'geolocation',
+  selector: 'app-geolocation',
   templateUrl: './geolocation.component.html',
   styleUrls: ['./geolocation.component.css'],
-  providers: [SharedDataService,GeolocationService]
+  providers: []
 })
 
-export class GeolocationComponent implements OnInit{
+export class GeolocationComponent implements OnInit {
 
-  headers: string[];
-  timestamp: number;
-  coordinates: Coordinates;
-  show: boolean = false;
-  private sharedData: any;
+  @Input() state: AppState;
 
-  constructor(private geolocationService: GeolocationService, private sharedDataService: SharedDataService){
-
+  constructor() {
   }
 
-  ngOnInit(){
-    this.showMyGeolocation();
-    this.sharedData = this.sharedDataService.getData();
-  }
-
-  private showMyGeolocation(): void {
-    this.show = true;
-    this.geolocationService.getMyGeolocation()
-      .subscribe( res => {
-          this.show = false;
-          this.timestamp = res.timestamp;
-          this.coordinates = res.coords;
-        },
-        err => {
-          this.show = false;
-          console.log(err);
-        }
-      );
+  ngOnInit() {
   }
 }

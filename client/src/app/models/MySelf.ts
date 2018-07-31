@@ -1,7 +1,9 @@
-import {UserRole} from "./UserRole";
-import {User} from "./User";
+import {UserRole} from './UserRole';
+import {User} from './User';
 
-export interface MySelf{
-  user: User
-  coordinates: Coordinates
+export interface MySelf extends User {
+  id: number;
+  name: string;
+  coordinates: Coordinates;
+  role: UserRole;
 }

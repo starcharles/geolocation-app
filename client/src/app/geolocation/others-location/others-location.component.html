@@ -1,6 +1,6 @@
 <mat-toolbar>近くのユーザー情報</mat-toolbar>
 <div class="table-container">
-  <mat-table #table [dataSource]="positions">
+  <mat-table #table [dataSource]="state.positions">
     <ng-container matColumnDef="user_id">
       <mat-header-cell *matHeaderCellDef> User ID </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.user_id}} </mat-cell>

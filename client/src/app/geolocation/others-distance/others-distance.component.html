@@ -1,5 +1,4 @@
-<button mat-raised-button color="primary" (click)="getDistances(); showDistance=true;">距離を計算</button>
-<div *ngIf="showDistance">
+<div>
   <mat-form-field>
     <mat-select placeholder="絞り込み" name="filter" [(ngModel)]="selectedDistance" (change)="filterUsers($event)">
       <mat-option *ngFor="let option of distanceOptions" [value]="option.value">
@@ -8,7 +7,7 @@
     </mat-select>
   </mat-form-field>
   <div class="table-container distance-table">
-    <mat-table #table [dataSource]="distances">
+    <mat-table #table [dataSource]="filteredDistances">
       <ng-container matColumnDef="user_id">
         <mat-header-cell *matHeaderCellDef> User ID </mat-header-cell>
         <mat-cell *matCellDef="let distance"> {{distance.user_id}} </mat-cell>

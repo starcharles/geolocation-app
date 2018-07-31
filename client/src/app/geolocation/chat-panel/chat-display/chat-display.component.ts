@@ -1,20 +1,17 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ChatMessage} from "../../../models/ChatMessage";
+import {AppState} from '../../../models/AppState';
 
 @Component({
-  selector: 'chat-display',
+  selector: 'app-chat-display',
   templateUrl: './chat-display.component.html',
   styleUrls: ['./chat-display.component.css']
 })
 export class ChatDisplayComponent implements OnInit {
 
   constructor() { }
-  @Input() chatMessages: ChatMessage[];
+
+  @Input() state: AppState;
 
   ngOnInit() {
-  }
-
-  showChatMessages(): void {
-
   }
 }

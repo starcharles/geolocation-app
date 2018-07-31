@@ -1,10 +1,10 @@
 <div class="container chat-container">
   <div class="row">
     <div class="message-container">
-      <chat-display [chatMessages]="messages"></chat-display>
+      <app-chat-display [state]="state"></app-chat-display>
     </div>
   </div>
   <div class="input-area">
-    <chat-input input="" (messageSubmitEvent)="addChatMessage($event);"></chat-input>
+    <app-chat-input [state]="state" input="" (messageSubmitEvent)="addChatMessage($event);"></app-chat-input>
   </div>
 </div>
