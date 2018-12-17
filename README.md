@@ -1,7 +1,9 @@
-Geolocation Matching and Chating App
+# Geolocation Matching and Chating App
 
-## Under Construction
+- Under Construction
 
-## Will not constructed
+- Will not constructed
 
-## This is only a sample codes for study and practicing
+- This is only a sample codes for study and practicing
+
+### OK?
